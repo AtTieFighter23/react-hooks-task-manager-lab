@@ -1,24 +1,25 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState } from "react";
 import TaskList from "./TaskList";
-import { TaskContext } from "../context/TaskContext";
 
 function SearchBar() {
+  // Uncontrolled input: the DOM manages its own value, we just read it via ref
+  const searchInputRef = useRef(null);
+  // Only used to trigger a re-render of TaskList when the search term changes
   const [query, setQuery] = useState("");
 
-  function handleSearch(e) {
-    setQuery(e.target.value);
+  function handleSearch() {
+    setQuery(searchInputRef.current.value);
   }
-
 
   return (
     <div>
       <input
+        ref={searchInputRef}
         type="text"
         placeholder="Search tasks..."
-        value={query}
         onChange={handleSearch}
       />
-      <TaskList query={query}/>
+      <TaskList query={query} />
     </div>
   );
 }
